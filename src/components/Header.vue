@@ -6,15 +6,15 @@
     >
       <div :class="['d-flex flex-column', { 'align-items-center': !rowLayout }]">
         <v-text-field
-          v-model="search"
+          v-model="query"
           append-icon="search"
           placeholder="Search"
           solo
           hide-details
         ></v-text-field>
-        <v-radio-group v-model="row" row dark hide-details class="header__radios">
-          <v-radio label="Movies" value="radio-1"></v-radio>
-          <v-radio label="Series" value="radio-2"></v-radio>
+        <v-radio-group v-model="type" row dark hide-details class="header__radios">
+          <v-radio label="Movies" value="movie"></v-radio>
+          <v-radio label="Series" value="series"></v-radio>
         </v-radio-group>
       </div>
     </div>
@@ -27,16 +27,24 @@ export default {
 
   data() {
     return {
-      search: '',
-      row: ''
+      query: '',
+      type: 'movie'
     };
   },
 
   computed: {
     rowLayout() {
-      return this.search.length >= 3;
+      return this.query.length >= 3;
     }
+  },
+  watch:{
+     query(){
+      if(this.query.length >= 3){
+        this.$emit('search',{query:this.query,type:this.type});
+      }
+
   }
+}
 };
 </script>
 
